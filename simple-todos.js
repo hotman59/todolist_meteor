@@ -29,7 +29,7 @@ if (Meteor.isClient) {
     // Get value from form element :\\ Retourne la valeur de l'élément de forme
     var text = event.target.text.value;
 
-    // Insert a task into the collection :\\ Insérer une tâche dans la collection
+    // Insert a task into the collection :\\ Insérer une tâche dans la collection(base de donné)
     Tasks.insert({
       text: text,
       createdAt: new Date() // current time
@@ -39,4 +39,15 @@ if (Meteor.isClient) {
     event.target.text.value = "";
   }
 });
+Template.task.events({
+    "click .toggle-checked": function () {
+      // Set the checked property to the opposite of its current value
+      Tasks.update(this._id, {
+        $set: {checked: ! this.checked}
+      });
+    },
+    "click .delete": function () {
+      Tasks.remove(this._id);
+    }
+  });
 }
